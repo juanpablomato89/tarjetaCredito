@@ -4,7 +4,14 @@
     <form [formGroup]="formCrearTarjeta" (ngSubmit)="crearTarjeta()">
       <div class="input-group input-group-lg mb-3">
         <span class="input-group-text">
-          <i class="fa-solid fa-circle-user"></i>
+          <i
+            class="fa-solid fa-circle-user"
+            [class.grean-icon]="this.formCrearTarjeta.get('titular')?.valid"
+            [class.red-icon]="
+              this.formCrearTarjeta.get('titular')?.invalid &&
+              this.formCrearTarjeta.get('titular')?.touched
+            "
+          ></i>
         </span>
         <input
           type="text"
@@ -15,45 +22,80 @@
       </div>
       <div class="input-group input-group-lg mb-3">
         <span class="input-group-text">
-          <i class="fa-solid fa-credit-card"></i>
+          <i
+            class="fa-solid fa-credit-card"
+            [class.grean-icon]="
+              this.formCrearTarjeta.get('numeroTarjeta')?.valid
+            "
+            [class.red-icon]="
+              this.formCrearTarjeta.get('numeroTarjeta')?.invalid &&
+              this.formCrearTarjeta.get('numeroTarjeta')?.touched
+            "
+          ></i>
         </span>
         <input
           type="text"
           class="form-control"
           formControlName="numeroTarjeta"
           placeholder="Tarjeta de Credito"
+          minlength="16"
+          maxlength="16"
         />
       </div>
       <div class="row">
         <div class="col-lg-7">
           <div class="input-group input-group-lg mb-3">
             <span class="input-group-text">
-              <i class="fa-solid fa-calendar-alt"></i>
+              <i
+                class="fa-solid fa-calendar-alt"
+                [class.grean-icon]="
+                  this.formCrearTarjeta.get('fechaExpiracion')?.valid
+                "
+                [class.red-icon]="
+                  this.formCrearTarjeta.get('fechaExpiracion')?.invalid &&
+                  this.formCrearTarjeta.get('fechaExpiracion')?.touched
+                "
+              ></i>
             </span>
             <input
               type="text"
               formControlName="fechaExpiracion"
               class="form-control"
               placeholder="MM/YY"
+              minlength="5"
+              maxlength="5"
             />
           </div>
         </div>
         <div class="col-lg-5">
           <div class="input-group input-group-lg mb-3">
             <span class="input-group-text">
-              <i class="fa-solid fa-key"></i>
+              <i
+                class="fa-solid fa-key"
+                [class.grean-icon]="this.formCrearTarjeta.get('cvv')?.valid"
+                [class.red-icon]="
+                  this.formCrearTarjeta.get('cvv')?.invalid &&
+                  this.formCrearTarjeta.get('cvv')?.touched
+                "
+              ></i>
             </span>
             <input
               type="password"
               formControlName="cvv"
               class="form-control"
               placeholder="CVV"
+              minlength="3"
+              maxlength="3"
             />
           </div>
         </div>
       </div>
       <div class="d-grid gap-2">
-        <button class="btn btn-success" type="submit">
+        <button
+          class="btn btn-success"
+          type="submit"
+          [disabled]="formCrearTarjeta.invalid"
+        >
           <i class="fa-solid fa-database"></i>
           &nbsp;Aceptar
         </button>
