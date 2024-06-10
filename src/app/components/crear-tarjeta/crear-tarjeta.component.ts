@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TarjetaCredito } from 'src/app/TarjetaCredito';
+import { TarjetaCredito } from 'src/app/models/TarjetaCredito';
+import { TarjetaService } from '../../services/tarjeta.service';
 
 @Component({
   selector: 'app-crear-tarjeta',
@@ -10,7 +11,7 @@ import { TarjetaCredito } from 'src/app/TarjetaCredito';
 export class CrearTarjetaComponent implements OnInit {
 
   formCrearTarjeta: FormGroup;
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private tarjetaService: TarjetaService) {
     this.formCrearTarjeta = this.fb.group({
       titular: ['', [Validators.required]],
       numeroTarjeta: ['', [Validators.required, Validators.minLength(16), Validators.maxLength(16)]],
@@ -26,11 +27,18 @@ export class CrearTarjetaComponent implements OnInit {
     const TARJETA: TarjetaCredito = {
       titular: this.formCrearTarjeta.value.titular,
       numeroTarjeta: this.formCrearTarjeta.value.numeroTarjeta,
-      fechaExpiracion: this.formCrearTarjeta.value.fechaCreacion,
+      fechaExpiracion: this.formCrearTarjeta.value.fechaExpiracion,
       cvv: this.formCrearTarjeta.value.cvv,
       fechaActualizacion: new Date(),
       fechaCreacion: new Date()
     }
+
+    this.tarjetaService.guardarTarjeta(TARJETA).then(() => {
+      console.log('insertado correctamente');
+      this.formCrearTarjeta.reset();
+    }, error => {
+      console.error(error);
+    });
   }
 
 }
