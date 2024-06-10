@@ -9,10 +9,10 @@ export class TarjetaService {
 
   constructor(private storage: Firestore) { }
 
-  async guardarTarjeta(tarjeta: TarjetaCredito): Promise<any> {
+  guardarTarjeta(tarjeta: TarjetaCredito): Promise<any> {
     const ref = collection(this.storage, 'tarjeta');
-    console.log(tarjeta);
-    await addDoc(ref, tarjeta);
+
+    return addDoc(ref, tarjeta);
 
   }
 

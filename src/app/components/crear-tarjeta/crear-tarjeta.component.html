@@ -1,6 +1,12 @@
 <div class="card">
   <div class="card-body">
-    <h5 class="titulo mb-3">{{ "Crear Tarjeta" | uppercase }}</h5>
+    <h5 class="titulo mb-3">
+      {{ "Crear Tarjeta" | uppercase }}
+
+      <div *ngIf="loading" class="spinner-border float-end" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </h5>
     <form [formGroup]="formCrearTarjeta" (ngSubmit)="crearTarjeta()">
       <div class="input-group input-group-lg mb-3">
         <span class="input-group-text">

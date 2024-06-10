@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TarjetaCredito } from 'src/app/models/TarjetaCredito';
 import { TarjetaService } from '../../services/tarjeta.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-crear-tarjeta',
@@ -11,7 +12,8 @@ import { TarjetaService } from '../../services/tarjeta.service';
 export class CrearTarjetaComponent implements OnInit {
 
   formCrearTarjeta: FormGroup;
-  constructor(private fb: FormBuilder, private tarjetaService: TarjetaService) {
+  loading = false;
+  constructor(private fb: FormBuilder, private tarjetaService: TarjetaService, private toastr: ToastrService) {
     this.formCrearTarjeta = this.fb.group({
       titular: ['', [Validators.required]],
       numeroTarjeta: ['', [Validators.required, Validators.minLength(16), Validators.maxLength(16)]],
@@ -32,12 +34,15 @@ export class CrearTarjetaComponent implements OnInit {
       fechaActualizacion: new Date(),
       fechaCreacion: new Date()
     }
-
+    this.loading = true;
     this.tarjetaService.guardarTarjeta(TARJETA).then(() => {
-      console.log('insertado correctamente');
+      this.toastr.success('Tarjeta de Banco creada correctamente', 'Add Tarjeta');
       this.formCrearTarjeta.reset();
+      this.loading = false;
     }, error => {
       console.error(error);
+      this.toastr.error('Opss.. a ocurrido un error', 'Error');
+      this.loading = false;
     });
   }
 
